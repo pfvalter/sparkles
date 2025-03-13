@@ -12,7 +12,6 @@ class MockJobImplementationTest extends AnyFlatSpec with Matchers {
   implicit val sparkSession: SparkSession = SparkSession.builder().master("local").getOrCreate().newSession()
 
   "Mock" should "run" in {
-    // Missing SparkContext here.
     val reader = MockInputFromFileReader("test-files/input.json")
     val writer = MockOutputToFileWriter("temp")
 
