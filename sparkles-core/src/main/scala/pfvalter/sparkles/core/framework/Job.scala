@@ -1,7 +1,7 @@
 package pfvalter.sparkles.core.framework
 
 /**
- * "Job" is the main trait of the framework. It is the skelleton of a Spark Job written in Sparkles
+ * "Job" is the main trait of the framework. It is the skeleton of a Spark Job written in Sparkles
  *   All it "knows" is:
  *   - What it will do to read
  *   - What it will do to write
@@ -10,14 +10,21 @@ package pfvalter.sparkles.core.framework
  *   Then, there is an apply() method that just does the orchestration of:
  *   -> read data -> run code -> write data
  *
- * Implementations of this trait only need to inject a Reader and a Writer, declare it's types,
+ * Implementations of this trait only need to inject a Reader and a Writer, declare its types,
  *   and then implement "run" with the real business logic
  */
-trait Job extends Read with Write {
-  val reader: Reader[ReadType]
-  val writer: Writer[WriteType]
+trait Job  {
+  val reader: Reader
+  val writer: Writer
 
-  def run(in: ReadType): WriteType
+  /*
+   * This is the method that needs to be implemented:
+   */
+  def run(dataInput: reader.ReadType): writer.WriteType
 
-  def apply(): Boolean = writer.write(run(reader.read))
+  /*
+   * Although you can re-implement this method, you shouldn't.
+   *   It is just a "trigger" for read, run, write.
+   */
+  def apply(): writer.WriteType = writer.write.apply(run(reader.read.apply()))
 }
