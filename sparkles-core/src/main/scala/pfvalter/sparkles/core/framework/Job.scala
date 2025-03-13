@@ -3,9 +3,9 @@ package pfvalter.sparkles.core.framework
 /**
  * "Job" is the main trait of the framework. It is the skeleton of a Spark Job written in Sparkles
  *   All it "knows" is:
- *   - What it will do to read
- *   - What it will do to write
- *   - What it should run
+ *   - What it will do to read (aka. what reader it should use)
+ *   - What it will do to write (aka. what writer it should use)
+ *   - What is the logic it should run
  *
  *   Then, there is an apply() method that just does the orchestration of:
  *   -> read data -> run code -> write data
