@@ -6,14 +6,21 @@ import org.scalatest.matchers.should.Matchers
 import pfvalter.sparkles.core.framework.file.reader.MockInputFromFileReader
 import pfvalter.sparkles.core.framework.file.writer.MockOutputToFileWriter
 import pfvalter.sparkles.core.framework.schemas.MockOutput
+import pfvalter.sparkles.core.io.format._
 
 class MockJobImplementationTest extends AnyFlatSpec with Matchers {
 
   implicit val sparkSession: SparkSession = SparkSession.builder().master("local").getOrCreate().newSession()
 
   "Mock" should "run" in {
-    val reader = MockInputFromFileReader("test-files/input.json")
-    val writer = MockOutputToFileWriter("temp")
+    val reader = MockInputFromFileReader(
+      filePath = "test-files/json/input.json",
+      fileFormat = JSON
+    )
+    val writer = MockOutputToFileWriter(
+      filePath = "temp",
+      fileFormat = PARQUET
+    )
 
     val job: MockJobImplementation = MockJobImplementation(reader, writer)
 
