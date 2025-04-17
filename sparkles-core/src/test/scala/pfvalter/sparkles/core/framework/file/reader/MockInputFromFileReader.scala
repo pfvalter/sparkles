@@ -4,6 +4,8 @@ import org.apache.spark.sql.SparkSession
 import pfvalter.sparkles.core.framework.schemas.MockInput
 import pfvalter.sparkles.core.io.format.FileFormat
 import pfvalter.sparkles.core.io.read.SingleDatasetReaderFromFile
+import shapeless.HList
+import shapeless.ops.hlist
 
 import scala.reflect.runtime.universe.TypeTag
 

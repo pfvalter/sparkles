@@ -1,7 +1,8 @@
 package pfvalter.sparkles.core.io.read
 
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.{Dataset, Encoder, SparkSession}
 import pfvalter.sparkles.core.io.format._
+import shapeless.{HList, HNil}
 
 trait SingleDatasetReaderFromFile[T <: Product] extends SingleDatasetReader[T] {
   /**
@@ -17,13 +18,13 @@ trait SingleDatasetReaderFromFile[T <: Product] extends SingleDatasetReader[T] {
 
   implicit val spark: SparkSession
 
-  override val read: () => Dataset[T] = () => {
+  override def read[R <: HList](implicit readEncoder: Encoder[T]): () => R = () => {
     fileFormat match {
-      case JSON => spark.read.json(filePath).as[T]
-      case PARQUET => spark.read.parquet(filePath).as[T]
-      case CSV => spark.read.csv(filePath).as[T]
-      case TEXT => spark.read.text(filePath).as[T]
+      case JSON => spark.read.json(filePath).as[T] :: HNil
+      case PARQUET => spark.read.parquet(filePath).as[T] :: HNil
+      case CSV => spark.read.csv(filePath).as[T] :: HNil
+      case TEXT => spark.read.text(filePath).as[T] :: HNil
       case _ => throw new Exception("File Format not defined")
     }
-  }
+  }.asInstanceOf[R]
 }

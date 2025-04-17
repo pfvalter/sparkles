@@ -1,5 +1,8 @@
 package pfvalter.sparkles.core.framework
 
+import shapeless.HList
+import shapeless.ops.hlist.IsHCons
+
 /**
  * "Job" is the main trait of the framework. It is the skeleton of a Spark Job written in Sparkles
  *   All it "knows" is:
@@ -20,11 +23,13 @@ trait Job  {
   /*
    * This is the method that needs to be implemented:
    */
-  def run(dataInput: reader.ReadType): writer.WriteType
+  def run[R <: HList](dataInput: R)(implicit ev: IsHCons[R]): writer.WriteType
 
   /*
    * Although you can re-implement this method, you shouldn't.
    *   It is just a "trigger" for read, run, write.
    */
-  def apply(): writer.WriteType = writer.write.apply(run(reader.read.apply()))
+  def apply[R <: HList]()(implicit ev: IsHCons[R]): writer.WriteType = {
+    writer.write.apply(run(reader.read(reader.readEncoder).apply())(ev))
+  }
 }
