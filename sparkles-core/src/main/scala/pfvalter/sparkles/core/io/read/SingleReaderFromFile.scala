@@ -1,22 +1,26 @@
 package pfvalter.sparkles.core.io.read
 
-import org.apache.spark.sql.{Dataset, Encoder, SparkSession}
+import org.apache.spark.sql.{Encoder, SparkSession}
 import pfvalter.sparkles.core.io.format._
 import shapeless.{HList, HNil}
 
-trait SingleDatasetReaderFromFile[T <: Product] extends SingleDatasetReader[T] {
-  /**
-   * File Format of the file.
-   * Note: Currently has no default. Later, a file type inference will fix that.
-   */
-  val fileFormat: FileFormat
+import scala.reflect.runtime.universe.TypeTag
 
-  //Implement this later, now let's just use Paths as Strings
-  //val readFrom: FileLocation
+/**
+ * -- fileFormat: FileFormat --
+ * File Format of the file.
+ * Note: Currently has no default. Later, a file type inference will fix that.
+ */
+case class SingleReaderFromFile[T <: Product](
+  //Implement readFrom later, now let's just use Paths as Strings
+  // -> val readFrom: FileLocation
   //This val is only here temporarily to hold the filePath
-  val filePath: String
-
-  implicit val spark: SparkSession
+  filePath: String,
+  fileFormat: FileFormat
+)(
+  implicit val spark: SparkSession,
+  implicit val readTypeTag: TypeTag[T]
+) extends SingleReader[T] {
 
   override def read[R <: HList](implicit readEncoder: Encoder[T]): () => R = () => {
     fileFormat match {

@@ -9,6 +9,7 @@ import shapeless.ops.hlist.IsHCons
  */
 trait Read {
   type InputType
+  def read[R <: HList](implicit readEncoder: Encoder[InputType]): () => R
 }
 
 /*
@@ -16,5 +17,4 @@ trait Read {
  */
 trait Reader extends Read {
   implicit val readEncoder: Encoder[InputType]
-  def read[R <: HList](implicit readEncoder: Encoder[InputType]): () => R
 }
