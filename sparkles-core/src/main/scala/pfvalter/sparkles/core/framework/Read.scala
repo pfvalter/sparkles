@@ -1,20 +1,27 @@
 package pfvalter.sparkles.core.framework
 
-import org.apache.spark.sql.Encoder
+import org.apache.spark.sql.{Encoder, Encoders, SparkSession}
 import shapeless.HList
-import shapeless.ops.hlist.IsHCons
+
+import scala.reflect.runtime.universe.TypeTag
 
 /*
  * Basic abstract ReadType "carrier" trait
  */
-trait Read {
+trait Reader {
   type InputType
+
+  implicit val readEncoder: Encoder[InputType]
+
   def read[R <: HList](implicit readEncoder: Encoder[InputType]): () => R
 }
 
-/*
- * Basic abstract Reader trait
- */
-trait Reader extends Read {
-  implicit val readEncoder: Encoder[InputType]
+trait SingleReader[T <: Product] extends Reader {
+  override type InputType = T
+
+  implicit val readTypeTag: TypeTag[T]
+
+  implicit val spark: SparkSession
+
+  implicit val readEncoder: Encoder[T] = Encoders.product[T]
 }

@@ -2,6 +2,7 @@ package pfvalter.sparkles.core.io.read
 
 import org.apache.spark.sql.{Encoder, SparkSession}
 import pfvalter.sparkles.core.io.format._
+import pfvalter.sparkles.core.framework.SingleReader
 import shapeless.{HList, HNil}
 
 import scala.reflect.runtime.universe.TypeTag

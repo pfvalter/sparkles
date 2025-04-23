@@ -2,7 +2,7 @@ package pfvalter.sparkles.core.framework
 
 import org.apache.spark.sql.Dataset
 import pfvalter.sparkles.core.framework.schemas.{MockInput, MockOutput}
-import pfvalter.sparkles.core.io.read.SingleReader
+import pfvalter.sparkles.core.framework.SingleReader
 import pfvalter.sparkles.core.io.write.SingleDatasetWriter
 import shapeless._
 import shapeless.ops.hlist.IsHCons
