@@ -15,8 +15,10 @@ class MockJobImplementationTest extends AnyFlatSpec with Matchers {
 
   "Mock" should "run" in {
     val reader = SingleReaderFromFile[MockInput](
-      filePath = "test-files/json/input.json",
-      fileFormat = JSON
+      FileMetadata(
+        filePath = "test-files/json/input1/input.json",
+        fileFormat = JSON
+      )
     )
     val writer = MockOutputToFileWriter(
       filePath = "temp",

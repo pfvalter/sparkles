@@ -30,6 +30,6 @@ trait Job  {
    *   It is just a "trigger" for read, run, write.
    */
   def apply[R <: HList]()(implicit ev: IsHCons[R]): writer.WriteType = {
-    writer.write.apply(run(reader.read(reader.readEncoder).apply())(ev))
+    writer.write.apply(run(reader.read.apply())(ev))
   }
 }

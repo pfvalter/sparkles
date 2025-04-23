@@ -11,9 +11,7 @@ import scala.reflect.runtime.universe.TypeTag
 trait Reader {
   type InputType
 
-  implicit val readEncoder: Encoder[InputType]
-
-  def read[R <: HList](implicit readEncoder: Encoder[InputType]): () => R
+  def read[U <: HList]: () => U
 }
 
 trait SingleReader[T <: Product] extends Reader {

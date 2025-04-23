@@ -2,7 +2,6 @@ package pfvalter.sparkles.core.framework
 
 import org.apache.spark.sql.Dataset
 import pfvalter.sparkles.core.framework.schemas.{MockInput, MockOutput}
-import pfvalter.sparkles.core.framework.SingleReader
 import pfvalter.sparkles.core.io.write.SingleDatasetWriter
 import shapeless._
 import shapeless.ops.hlist.IsHCons
@@ -17,9 +16,9 @@ case class MockJobImplementation(
 
     mockInput.map{ input: MockInput =>
       MockOutput(
-        fieldA = input.field2,
+        fieldA = input.id,
         fieldB = input.field1,
-        fieldC = if (input.field2 < 10) {
+        fieldC = if (input.id < 10) {
           Some(input.field1)
         } else {
           None
