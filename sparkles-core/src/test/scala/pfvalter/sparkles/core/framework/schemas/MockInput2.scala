@@ -1,6 +1,6 @@
 package pfvalter.sparkles.core.framework.schemas
 
-case class MockInput(
+case class MockInput2(
   id: Long,
-  field1: String
+  field2: Boolean
 ) extends Product

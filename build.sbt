@@ -13,12 +13,13 @@ lazy val coreModule: Project = (project in file("sparkles-core"))
       "org.apache.spark" %% "spark-sql" % sparkVersion % Provided,
       "org.apache.spark" %% "spark-sql-api" % sparkVersion % Provided,
       "org.apache.spark" %% "spark-graphx" % sparkVersion % Provided,
-      "org.apache.spark" %% "spark-catalyst" % sparkVersion % Provided,
       // ScalaTest Deps:
       "org.scalatest" %% "scalatest-core" % scalaTestVersion,
       "org.scalatest" %% "scalatest-flatspec" % scalaTestVersion,
       "org.scalatest" %% "scalatest-matchers-core" % scalaTestVersion,
       "org.scalatest" %% "scalatest-shouldmatchers" % scalaTestVersion,
+      // Shapeless for HList support
+      "com.chuusai" %% "shapeless" % "2.3.10"
     )
   )
 

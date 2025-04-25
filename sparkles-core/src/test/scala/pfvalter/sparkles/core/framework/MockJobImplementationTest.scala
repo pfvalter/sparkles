@@ -1,19 +1,30 @@
 package pfvalter.sparkles.core.framework
 
-import org.apache.spark.sql.{Dataset, SparkSession}
+import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import pfvalter.sparkles.core.framework.file.reader.MockInputFromFileReader
 import pfvalter.sparkles.core.framework.file.writer.MockOutputToFileWriter
 import pfvalter.sparkles.core.framework.schemas.MockOutput
+import pfvalter.sparkles.core.io.format._
+import pfvalter.sparkles.core.framework.schemas.MockInput
+import pfvalter.sparkles.core.framework.Reader
+import pfvalter.sparkles.core.io.source.FILE
 
 class MockJobImplementationTest extends AnyFlatSpec with Matchers {
 
   implicit val sparkSession: SparkSession = SparkSession.builder().master("local").getOrCreate().newSession()
 
   "Mock" should "run" in {
-    val reader = MockInputFromFileReader("test-files/input.json")
-    val writer = MockOutputToFileWriter("temp")
+    val reader = new Reader[MockInput](
+      FILE(
+        filePath = "test-files/json/input1/input.json",
+        fileFormat = JSON
+      )
+    )
+    val writer = MockOutputToFileWriter(
+      filePath = "temp",
+      fileFormat = PARQUET
+    )
 
     val job: MockJobImplementation = MockJobImplementation(reader, writer)
 
