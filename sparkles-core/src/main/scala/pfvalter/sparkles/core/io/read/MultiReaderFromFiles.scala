@@ -7,8 +7,8 @@ import shapeless.{HList, HNil}
 import scala.reflect.runtime.universe.TypeTag
 
 /**
- * -- fileFormat: FileFormat --
- * The ordering in files and readers needs to be properly aligned
+ * The ordering in files and readers needs to be properly aligned with the readers.
+ *   The typed implementation on the core and SDK will have logic that makes sure of it at compile time.
  */
 case class MultiReaderFromFiles(
   readers: Seq[Reader[_]]
