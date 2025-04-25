@@ -17,7 +17,7 @@ import shapeless.ops.hlist.IsHCons
  *   and then implement "run" with the real business logic
  */
 trait Job  {
-  val reader: Reader
+  val reader: Read
   val writer: Writer
 
   /*

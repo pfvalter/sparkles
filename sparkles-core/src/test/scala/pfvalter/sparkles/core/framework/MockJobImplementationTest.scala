@@ -7,15 +7,16 @@ import pfvalter.sparkles.core.framework.file.writer.MockOutputToFileWriter
 import pfvalter.sparkles.core.framework.schemas.MockOutput
 import pfvalter.sparkles.core.io.format._
 import pfvalter.sparkles.core.framework.schemas.MockInput
-import pfvalter.sparkles.core.io.read.SingleReaderFromFile
+import pfvalter.sparkles.core.framework.Reader
+import pfvalter.sparkles.core.io.source.FILE
 
 class MockJobImplementationTest extends AnyFlatSpec with Matchers {
 
   implicit val sparkSession: SparkSession = SparkSession.builder().master("local").getOrCreate().newSession()
 
   "Mock" should "run" in {
-    val reader = SingleReaderFromFile[MockInput](
-      FileMetadata(
+    val reader = new Reader[MockInput](
+      FILE(
         filePath = "test-files/json/input1/input.json",
         fileFormat = JSON
       )

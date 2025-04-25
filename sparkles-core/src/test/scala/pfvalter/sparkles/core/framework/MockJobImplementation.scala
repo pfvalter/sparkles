@@ -7,8 +7,8 @@ import shapeless._
 import shapeless.ops.hlist.IsHCons
 
 case class MockJobImplementation(
-  reader: SingleReader[MockInput],
-  writer: SingleDatasetWriter[MockOutput]
+                                  reader: Reader[MockInput],
+                                  writer: SingleDatasetWriter[MockOutput]
 ) extends Job {
 
   override def run[L <: HList](in: L)(implicit ev: IsHCons[L]): Dataset[MockOutput] = {

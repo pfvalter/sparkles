@@ -1,8 +1,7 @@
 package pfvalter.sparkles.core.io.read
 
-import org.apache.spark.sql.{Dataset, Encoder, SparkSession}
-import pfvalter.sparkles.core.framework.{Reader, SingleReader}
-import pfvalter.sparkles.core.io.format._
+import org.apache.spark.sql.{Dataset, SparkSession}
+import pfvalter.sparkles.core.framework._
 import shapeless.{HList, HNil}
 
 import scala.reflect.runtime.universe.TypeTag
@@ -12,10 +11,10 @@ import scala.reflect.runtime.universe.TypeTag
  * The ordering in files and readers needs to be properly aligned
  */
 case class MultiReaderFromFiles(
-  readers: Seq[SingleReaderFromFile[_]]
+  readers: Seq[Reader[_]]
 )(
   implicit val spark: SparkSession
-) extends Reader {
+) extends Read {
 
   private def toHListRecursive(xs: List[Any]): HList = xs match {
     case Nil => HNil

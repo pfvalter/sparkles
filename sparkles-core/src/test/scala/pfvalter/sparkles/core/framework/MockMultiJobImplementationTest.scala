@@ -6,7 +6,9 @@ import org.scalatest.matchers.should.Matchers
 import pfvalter.sparkles.core.framework.file.writer.MockOutputToFileWriter
 import pfvalter.sparkles.core.framework.schemas.{MockInput, MockInput2, MockOutput}
 import pfvalter.sparkles.core.io.format._
-import pfvalter.sparkles.core.io.read.{MultiReaderFromFiles, SingleReaderFromFile}
+import pfvalter.sparkles.core.framework.Reader
+import pfvalter.sparkles.core.io.read.MultiReaderFromFiles
+import pfvalter.sparkles.core.io.source.FILE
 
 class MockMultiJobImplementationTest extends AnyFlatSpec with Matchers {
 
@@ -15,14 +17,14 @@ class MockMultiJobImplementationTest extends AnyFlatSpec with Matchers {
   "MockMultiJob" should "run with multiple inputs" in {
     val multiReader = MultiReaderFromFiles(
       readers = Seq(
-        SingleReaderFromFile[MockInput](
-          FileMetadata(
+        new Reader[MockInput](
+          FILE(
             filePath = "test-files/json/input1/input.json",
             fileFormat = JSON
           )
         ),
-        SingleReaderFromFile[MockInput2](
-          FileMetadata(
+        new Reader[MockInput2](
+          FILE(
             filePath = "test-files/json/input2/input.json",
             fileFormat = JSON
           )
