@@ -5,11 +5,11 @@ Planned milestones:
 - Implement the generics to be able to create a job (done)
 - Introduce file formats (done)
 - Introduce HList for multiread (done)
-- Introduce HList for multiwrite
-- Introduce code formaters (scalafmt maybe?)
+- Introduce HList for multiwrite (done)
 - Create Typed and Untyped interfaces - user can choose which to use.
-- - - Typed will be a "cast" version of untyped under the hood but the user will not notice
+- - Typed will be a "cast" version of untyped under the hood but the user will not notice
 - - Document usage of each of them
+- Introduce code formaters (scalafmt maybe?)
 - Introduce file type inference
 - Add read options (currently only file is there)
 - - Create the code to be able to run jobs in memory, s3, etc.
