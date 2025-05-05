@@ -4,8 +4,7 @@ import org.apache.spark.sql.Dataset
 import pfvalter.sparkles.core.framework.read.Reader
 import pfvalter.sparkles.core.framework.schemas.{MockInput, MockOutput}
 import pfvalter.sparkles.core.framework.write.Writer
-import shapeless.ops.hlist.Mapper
-import shapeless.{::, HNil, _}
+import shapeless._
 
 case class MockJobImplementation(
   readers: Reader[MockInput] :: HNil,
