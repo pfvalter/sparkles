@@ -1,20 +1,27 @@
 package pfvalter.sparkles.core.framework
 
 import org.apache.spark.sql.Dataset
+import pfvalter.sparkles.core.framework.read.Reader
 import pfvalter.sparkles.core.framework.schemas.{MockInput, MockOutput}
-import pfvalter.sparkles.core.io.write.SingleDatasetWriter
+import pfvalter.sparkles.core.framework.write.Writer
 import shapeless._
-import shapeless.ops.hlist.IsHCons
 
 case class MockJobImplementation(
-  reader: Reader[MockInput],
-  writer: SingleDatasetWriter[MockOutput]
-) extends Job {
+  readers: Reader[MockInput] :: HNil,
+  writers: Writer[MockOutput] :: HNil
+) extends Job[
+  Dataset[MockInput] :: HNil,
+  Dataset[MockOutput] :: HNil,
+  Reader[MockInput] :: HNil,
+  Writer[MockOutput] :: HNil
+] {
 
-  override def run[L <: HList](in: L)(implicit ev: IsHCons[L]): Dataset[MockOutput] = {
-    val mockInput: Dataset[MockInput] = in.head(ev).asInstanceOf[Dataset[MockInput]]
+  override def run(
+    dataInput: Dataset[MockInput] :: HNil
+  ): Dataset[MockOutput] :: HNil = {
+    val mockInput: Dataset[MockInput] = dataInput.head
 
-    mockInput.map{ input: MockInput =>
+    val result = mockInput.map{ input: MockInput =>
       MockOutput(
         fieldA = input.id,
         fieldB = input.field1,
@@ -24,7 +31,9 @@ case class MockJobImplementation(
           None
         }
       )
-    }(writer.writeEncoder)
+    }(writers.head.writeEncoder)
+
+    result :: HNil
   }
 }
 

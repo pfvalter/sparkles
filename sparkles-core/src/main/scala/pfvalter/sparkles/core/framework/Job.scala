@@ -1,7 +1,10 @@
 package pfvalter.sparkles.core.framework
 
-import shapeless.HList
-import shapeless.ops.hlist.IsHCons
+import org.apache.spark.sql.{Dataset, SparkSession}
+import pfvalter.sparkles.core.framework.read.{MultiReader, Read}
+import pfvalter.sparkles.core.framework.write.{MultiWriter, Write, Writer}
+import shapeless._
+import shapeless.ops.hlist.{IsHCons, Mapper}
 
 /**
  * "Job" is the main trait of the framework. It is the skeleton of a Spark Job written in Sparkles
@@ -16,20 +19,27 @@ import shapeless.ops.hlist.IsHCons
  * Implementations of this trait only need to inject a Reader and a Writer, declare its types,
  *   and then implement "run" with the real business logic
  */
-trait Job  {
-  val reader: Read
-  val writer: Writer
+trait Job[I <: HList, O <: HList, R <: HList, W <: HList]  {
+  // Abstract the session part to be injected depending on the context (local, cluster, test, etc.)
+  implicit val sparkSession: SparkSession = SparkSession.builder().master("local").getOrCreate().newSession()
+
+  val readers: R
+  val writers: W
+  private lazy val writer: Write = MultiWriter(writers)
+  private lazy val reader: Read = MultiReader(readers)
+
+  //implicit val ev: IsHCons[R]
 
   /*
    * This is the method that needs to be implemented:
    */
-  def run[R <: HList](dataInput: R)(implicit ev: IsHCons[R]): writer.WriteType
+  def run(dataInput: I): O
 
   /*
    * Although you can re-implement this method, you shouldn't.
    *   It is just a "trigger" for read, run, write.
    */
-  def apply[R <: HList]()(implicit ev: IsHCons[R]): writer.WriteType = {
-    writer.write.apply(run(reader.read.apply())(ev))
+  def apply(): O = {
+    writer.write(run(reader.read.apply()))
   }
 }

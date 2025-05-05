@@ -1,14 +1,15 @@
 package pfvalter.sparkles.core.framework
 
-import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.{Dataset, SparkSession}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import pfvalter.sparkles.core.framework.file.writer.MockOutputToFileWriter
+import pfvalter.sparkles.core.framework.read.Reader
 import pfvalter.sparkles.core.framework.schemas.MockOutput
 import pfvalter.sparkles.core.io.format._
 import pfvalter.sparkles.core.framework.schemas.MockInput
-import pfvalter.sparkles.core.framework.Reader
+import pfvalter.sparkles.core.framework.write.Writer
 import pfvalter.sparkles.core.io.source.FILE
+import shapeless._
 
 class MockJobImplementationTest extends AnyFlatSpec with Matchers {
 
@@ -20,17 +21,20 @@ class MockJobImplementationTest extends AnyFlatSpec with Matchers {
         filePath = "test-files/json/input1/input.json",
         fileFormat = JSON
       )
-    )
-    val writer = MockOutputToFileWriter(
-      filePath = "temp",
-      fileFormat = PARQUET
-    )
+    ) :: HNil
+
+    val writer = new Writer[MockOutput](
+      FILE(
+        filePath = "temp",
+        fileFormat = PARQUET
+      )
+    ) :: HNil
 
     val job: MockJobImplementation = MockJobImplementation(reader, writer)
 
-    val results: Array[MockOutput] = job.apply().collect()
+    val output1 :: _ = job.apply()
+    val results: Array[MockOutput] = output1.collect()
 
     results.length shouldBe 2
   }
-
 }
