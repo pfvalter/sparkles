@@ -1,7 +1,9 @@
 package pfvalter.sparkles.core.framework
 
+import org.apache.spark.sql.SparkSession
+import pfvalter.sparkles.core.framework.read._
+import pfvalter.sparkles.core.framework.write._
 import shapeless.HList
-import shapeless.ops.hlist.IsHCons
 
 /**
  * "Job" is the main trait of the framework. It is the skeleton of a Spark Job written in Sparkles
