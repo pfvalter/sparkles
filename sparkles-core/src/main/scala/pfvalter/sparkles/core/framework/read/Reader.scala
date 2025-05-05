@@ -1,4 +1,4 @@
-package pfvalter.sparkles.core.framework
+package pfvalter.sparkles.core.framework.read
 
 import org.apache.spark.sql.{Dataset, Encoder, Encoders, SparkSession}
 import pfvalter.sparkles.core.io.format.{CSV, JSON, PARQUET, TEXT}
