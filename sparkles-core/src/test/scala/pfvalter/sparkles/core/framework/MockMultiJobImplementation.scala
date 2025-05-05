@@ -11,9 +11,7 @@ case class MockMultiJobImplementation(
   writers: Writer[MockOutput] :: Writer[MockOutput2] :: HNil
 ) extends Job[
   Dataset[MockInput] :: Dataset[MockInput2] :: HNil,
-  Dataset[MockOutput] :: Dataset[MockOutput2] :: HNil,
-  Reader[MockInput] :: Reader[MockInput2] :: HNil,
-  Writer[MockOutput] :: Writer[MockOutput2] :: HNil
+  Dataset[MockOutput] :: Dataset[MockOutput2] :: HNil
 ] {
 
   override def run(
