@@ -9,8 +9,10 @@ Planned milestones:
 - Create Typed and Untyped interfaces - user can choose which to use.
 - - Typed will be a "cast" version of untyped under the hood but the user will not notice
 - - Document usage of each of them
+- Introduce context derived or input based config for the SparkSession in the Job trait.
 - Introduce code formaters (scalafmt maybe?)
-- Introduce file type inference
+- Abstract the generic file reader, etc. to prevent code duplication between the type and untyped interfaces.
+- Introduce file type inference.
 - Add read options (currently only file is there)
 - - Create the code to be able to run jobs in memory, s3, etc.
 - Implement the submission SDK for AWS

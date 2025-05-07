@@ -1,6 +1,7 @@
 package pfvalter.sparkles.core.framework.read
 
 import org.apache.spark.sql.{Dataset, SparkSession}
+import pfvalter.sparkles.core.framework.read.generic.ReaderTrait
 import shapeless._
 
 /**
@@ -19,14 +20,17 @@ case class MultiReader[R <: HList](
     case _ => xs.head :: toInputHListRecursive(xs.tail)
   }
 
-  private def fromHListRecursive(xs: HList): List[Reader[_ <: Product]] = xs match {
+  private def fromHListRecursive(xs: HList): List[ReaderTrait] = xs match {
     case HNil => Nil
-    case head :: tail => head.asInstanceOf[Reader[_ <: Product]] :: fromHListRecursive(tail)
+    case head :: tail => head match {
+      case h: ReaderTrait => h :: fromHListRecursive(tail)
+      case _ => fromHListRecursive(tail)
+    }
   }
 
   override def read[U <: HList]: () => U = () => {
     val readersList = fromHListRecursive(readers)
-    val fullRead: Seq[Dataset[_]] = readersList.map(_.readHead)
-    toInputHListRecursive(fullRead.toList)
+    val fullRead = readersList.map(_.readHead)
+    toInputHListRecursive(fullRead)
   }.asInstanceOf[U]
 }

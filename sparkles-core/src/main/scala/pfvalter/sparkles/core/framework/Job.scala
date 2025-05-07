@@ -8,14 +8,15 @@ import shapeless.HList
 /**
  * "Job" is the main trait of the framework. It is the skeleton of a Spark Job written in Sparkles
  *   All it "knows" is:
- *   - What it will do to read (aka. what reader it should use)
- *   - What it will do to write (aka. what writer it should use)
+ *   - What it will do to read (aka. what readers it should use)
+ *   - What it will do to write (aka. what writers it should use)
  *   - What is the logic it should run
  *
  *   Then, there is an apply() method that just does the orchestration of:
  *   -> read data -> run code -> write data
  *
- * Implementations of this trait only need to inject a Reader and a Writer, declare its types,
+ * Implementations of this trait only need to inject the "readers" (HList) and "writers" (HList),
+ *   declare the types of the input and output (i.e. Dataset[Something] or Dataframe, etc.),
  *   and then implement "run" with the real business logic
  */
 trait Job[I <: HList, O <: HList]  {

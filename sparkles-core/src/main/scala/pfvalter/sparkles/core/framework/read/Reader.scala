@@ -12,11 +12,9 @@ import scala.reflect.runtime.universe.TypeTag
 class Reader[T <: Product](
   fromSource: DataSource
 )(
-  implicit val spark: SparkSession,
+  implicit val sparkSession: SparkSession,
   implicit val readTypeTag: TypeTag[T]
 ) extends Read {
-  override type InputType = T
-
   implicit val readEncoder: Encoder[T] = Encoders.product[T]
 
   lazy val readHead: Dataset[T] = fromSource match {
@@ -31,14 +29,14 @@ class Reader[T <: Product](
 private case class FileReader[T <: Product](
   file: FILE
 )(
-  implicit spark: SparkSession, readTypeTag: TypeTag[T]
+  implicit sparkSession: SparkSession, readTypeTag: TypeTag[T]
 ) extends Reader[T](file) {
 
   override lazy val readHead: Dataset[T] = file.fileFormat match {
-    case JSON => spark.read.json(file.filePath).as[T]
-    case PARQUET => spark.read.parquet(file.filePath).as[T]
-    case CSV => spark.read.csv(file.filePath).as[T]
-    case TEXT => spark.read.text(file.filePath).as[T]
+    case JSON => sparkSession.read.json(file.filePath).as[T]
+    case PARQUET => sparkSession.read.parquet(file.filePath).as[T]
+    case CSV => sparkSession.read.csv(file.filePath).as[T]
+    case TEXT => sparkSession.read.text(file.filePath).as[T]
     case _ => throw new Exception("File Format not defined")
   }
 
