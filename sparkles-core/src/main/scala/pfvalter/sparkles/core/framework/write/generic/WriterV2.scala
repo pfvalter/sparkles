@@ -13,8 +13,6 @@ trait WriterTrait extends Write {
 
   implicit val sparkSession: SparkSession
 
-  type OutputType
-
   type WriteAs
 
   def fileWriter(file: FILE, saveMode: SaveMode = SaveMode.Overwrite): GenericFileWriter
@@ -42,7 +40,7 @@ abstract class GenericFileWriter(
   override lazy val toSource: DataSource = file
 
   private def writeDS(output: WriteAs): Unit = output match {
-    case ds: Dataset[OutputType] => file.fileFormat match {
+    case ds: Dataset[_] => file.fileFormat match {
       case JSON => ds.write.mode(saveMode).format("json").save(file.filePath)
       case PARQUET => ds.write.mode(saveMode).format("parquet").save(file.filePath)
       case CSV => ds.write.mode(saveMode).format("csv").save(file.filePath)
@@ -75,8 +73,6 @@ class WriterV2[T <: Product](
   implicit val sparkSession: SparkSession,
   implicit val readTypeTag: TypeTag[T]
 ) extends WriterTrait {
-
-  override type OutputType = T
 
   override type WriteAs = Dataset[T]
 

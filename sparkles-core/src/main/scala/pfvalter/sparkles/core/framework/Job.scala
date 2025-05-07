@@ -2,6 +2,7 @@ package pfvalter.sparkles.core.framework
 
 import org.apache.spark.sql.SparkSession
 import pfvalter.sparkles.core.framework.read._
+import pfvalter.sparkles.core.framework.read.generic.{MultiReader, Read}
 import pfvalter.sparkles.core.framework.write._
 import shapeless.HList
 

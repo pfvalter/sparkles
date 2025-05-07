@@ -15,7 +15,6 @@ class UntypedWriter(
 )(
   implicit val sparkSession: SparkSession
 ) extends WriterTrait {
-  override type OutputType = Row
 
   override type WriteAs = DataFrame
 

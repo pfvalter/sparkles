@@ -1,4 +1,4 @@
-package pfvalter.sparkles.core.framework.read
+package pfvalter.sparkles.core.framework.read.generic
 
 import shapeless.HList
 
@@ -6,6 +6,6 @@ import shapeless.HList
  * Basic abstract ReadType "carrier" trait
  */
 trait Read {
-  def read[U <: HList]: () => U
+  def read[I <: HList]: () => I
 }
 

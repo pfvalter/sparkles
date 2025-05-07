@@ -1,13 +1,13 @@
 package pfvalter.sparkles.core.framework
 
 import org.apache.spark.sql.Dataset
-import pfvalter.sparkles.core.framework.read.generic.ReaderV2
+import pfvalter.sparkles.core.framework.read.Reader
 import pfvalter.sparkles.core.framework.schemas.{MockInput, MockOutput}
 import pfvalter.sparkles.core.framework.write.generic.WriterV2
 import shapeless._
 
 case class MockJobImplementation(
-  readers: ReaderV2[MockInput] :: HNil,
+  readers: Reader[MockInput] :: HNil,
   writers: WriterV2[MockOutput] :: HNil
 ) extends Job[
   Dataset[MockInput] :: HNil,

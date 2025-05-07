@@ -3,7 +3,7 @@ package pfvalter.sparkles.core.framework
 import org.apache.spark.sql.SparkSession
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import pfvalter.sparkles.core.framework.read.generic.ReaderV2
+import pfvalter.sparkles.core.framework.read.Reader
 import pfvalter.sparkles.core.framework.schemas.MockOutput
 import pfvalter.sparkles.core.io.format._
 import pfvalter.sparkles.core.framework.schemas.MockInput
@@ -16,7 +16,7 @@ class MockJobImplementationTest extends AnyFlatSpec with Matchers {
   implicit val sparkSession: SparkSession = SparkSession.builder().master("local").getOrCreate().newSession()
 
   "Mock" should "run" in {
-    val reader = new ReaderV2[MockInput](
+    val reader = new Reader[MockInput](
       FILE(
         filePath = "test-files/json/input1/input.json",
         fileFormat = JSON
