@@ -1,12 +1,8 @@
 package pfvalter.sparkles.core.framework.write
 
-import org.apache.spark.sql._
-import pfvalter.sparkles.core.framework.write.generic.{GenericFileWriter, WriterTrait}
-import pfvalter.sparkles.core.io.format.{CSV, JSON, PARQUET}
+import pfvalter.sparkles.core.framework.write.generic.{GenericFileWriter, Writer}
 import pfvalter.sparkles.core.io.source.{DataSource, FILE}
-import shapeless._
-
-import scala.reflect.runtime.universe.TypeTag
+import org.apache.spark.sql._
 
 class UntypedWriter(
   val toSource: DataSource,
@@ -14,11 +10,8 @@ class UntypedWriter(
   val saveMode: SaveMode = SaveMode.Overwrite
 )(
   implicit val sparkSession: SparkSession
-) extends WriterTrait {
-
-  override type WriteAs = DataFrame
-
-  override def fileWriter(file: FILE, saveMode: SaveMode = SaveMode.Overwrite): GenericFileWriter = {
+) extends Writer[DataFrame] {
+  override def fileWriter(file: FILE, saveMode: SaveMode): GenericFileWriter[DataFrame] = {
     UntypedFileWriter(file, saveMode)
   }
 }
@@ -28,7 +21,4 @@ case class UntypedFileWriter(
   saveMode: SaveMode
 )(
   implicit sparkSession: SparkSession
-) extends GenericFileWriter(file, saveMode) {
-
-  override def fileWriter(file: FILE, saveMode: SaveMode = SaveMode.Overwrite): GenericFileWriter = this
-}
+) extends GenericFileWriter[DataFrame](file, saveMode)

@@ -2,7 +2,7 @@ package pfvalter.sparkles.core.framework.read
 
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import pfvalter.sparkles.core.framework.read.generic.{GenericFileReader, ReaderWithSource}
+import pfvalter.sparkles.core.framework.read.generic.{GenericFileReader, Reader}
 import pfvalter.sparkles.core.io.source.{DataSource, FILE}
 
 // This code is praticaly repeated. Explore the possibility of abstracting it later.
@@ -12,7 +12,7 @@ class UntypedReader(
   val fromSource: DataSource
 )(
   implicit val sparkSession: SparkSession
-) extends ReaderWithSource[DataFrame] {
+) extends Reader[DataFrame] {
   override def fileReader(file: FILE): GenericFileReader[DataFrame] = UntypedFileReader(file)
 }
 

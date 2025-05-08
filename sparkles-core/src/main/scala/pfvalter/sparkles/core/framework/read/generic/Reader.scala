@@ -5,10 +5,10 @@ import shapeless.HList
 
 /**
  * This Trait is the definition of a Reader (the actual interface implementation)
- *   It is extended by the (typed)Reader and the UntypedReader
+ *   It is extended by the TypedReader and the UntypedReader
  * @tparam R it's the actual type of what should be read (i.e. Dataset[T] or Dataframe)
  */
-trait ReaderWithSource[R] extends ReaderBlueprint[R] {
+trait Reader[R] extends ReaderBlueprint[R] {
   val fromSource: DataSource
 
   def fileReader(file: FILE): GenericFileReader[R]

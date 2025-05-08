@@ -2,26 +2,26 @@ package pfvalter.sparkles.core.framework.read
 
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{Dataset, Encoder, Encoders, SparkSession}
-import pfvalter.sparkles.core.framework.read.generic.{GenericFileReader, ReaderWithSource}
+import pfvalter.sparkles.core.framework.read.generic.{GenericFileReader, Reader}
 import pfvalter.sparkles.core.io.source.{DataSource, FILE}
 
 import scala.reflect.runtime.universe.TypeTag
 
-// This has to be a regular class to be extended by the FileReader.
+// This has to be a regular class to be extended by the TypedFileReader.
 //   Later on, untangle to allow case class here
-class Reader[T <: Product](
+class TypedReader[T <: Product](
   val fromSource: DataSource
 )(
   implicit val sparkSession: SparkSession,
   implicit val readTypeTag: TypeTag[T]
-) extends ReaderWithSource[Dataset[T]] {
+) extends Reader[Dataset[T]] {
 
   implicit val readEncoder: Encoder[T] = Encoders.product[T]
 
-  override def fileReader(file: FILE): GenericFileReader[Dataset[T]] = FileReader[T](file)
+  override def fileReader(file: FILE): GenericFileReader[Dataset[T]] = TypedFileReader[T](file)
 }
 
-private case class FileReader[T <: Product](
+private case class TypedFileReader[T <: Product](
   file: FILE
 )(
   implicit sparkSession: SparkSession, readTypeTag: TypeTag[T], readEncoder: Encoder[T]

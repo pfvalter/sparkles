@@ -4,6 +4,7 @@ import org.apache.spark.sql.SparkSession
 import pfvalter.sparkles.core.framework.read._
 import pfvalter.sparkles.core.framework.read.generic.{MultiReader, Read}
 import pfvalter.sparkles.core.framework.write._
+import pfvalter.sparkles.core.framework.write.generic.{MultiWriter, Write}
 import shapeless.HList
 
 /**

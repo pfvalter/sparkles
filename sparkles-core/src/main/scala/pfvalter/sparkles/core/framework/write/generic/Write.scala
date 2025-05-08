@@ -1,4 +1,4 @@
-package pfvalter.sparkles.core.framework.write
+package pfvalter.sparkles.core.framework.write.generic
 
 import shapeless.HList
 

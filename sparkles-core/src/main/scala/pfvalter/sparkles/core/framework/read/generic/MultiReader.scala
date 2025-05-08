@@ -27,10 +27,10 @@ case class MultiReader(
    * @param xs rest of the HList
    * @return A List of Readers (works for inputs with DSs or DFs or even mixed ones too!)
    */
-  private def fromHListRecursive(xs: HList): List[ReaderWithSource[_]] = xs match {
+  private def fromHListRecursive(xs: HList): List[Reader[_]] = xs match {
     case HNil => Nil
     case head :: tail => head match {
-      case h: ReaderWithSource[_] => h :: fromHListRecursive(tail)
+      case h: Reader[_] => h :: fromHListRecursive(tail)
       case _ => fromHListRecursive(tail)
     }
   }
