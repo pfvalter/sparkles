@@ -5,8 +5,7 @@ import shapeless._
 
 /**
  * The ordering in files (or sources) and readers needs to be properly aligned with the readers.
- *   The typed implementation on the core and SDK will have logic that makes sure of it at compile or
- *   instantiation time.
+ *   The SDK will have logic that makes sure of it at compile or instantiation time.
  */
 case class MultiReader(
   readers: HList
@@ -36,7 +35,7 @@ case class MultiReader(
   }
 
   /**
-   * Multi Read Implementation
+   * Multi Reader read implementation
    * @tparam I the HList type for the input after it is read.
    * @return all inputs read.
    */

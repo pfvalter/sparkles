@@ -18,3 +18,7 @@ Planned milestones:
 - Implement the submission SDK for AWS
 - Add support for Dataframes (json and dataframes are not good friends)
 - Implement cluster monitoring and other orchestration needed EMR SDK 
+- Fix the issue that happens in tests when running them for a while in local mode:
+- - An exception or error caused a run to abort: Can't assign requested address: Service 'sparkDriver' failed after 16 retries (on a random free port)! Consider explicitly setting the appropriate binding address for the service 'sparkDriver' (for example spark.driver.bindAddress for SparkDriver) to the correct binding address.
+  java.net.BindException: Can't assign requested address: Service 'sparkDriver' failed after 16 retries (on a random free port)! Consider explicitly setting the appropriate binding address for the service 'sparkDriver' (for example spark.driver.bindAddress for SparkDriver) to the correct binding address.
+

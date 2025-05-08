@@ -5,9 +5,14 @@ import org.apache.spark.sql.{DataFrame, SparkSession}
 import pfvalter.sparkles.core.framework.read.generic.{GenericFileReader, Reader}
 import pfvalter.sparkles.core.io.source.{DataSource, FILE}
 
-// This code is praticaly repeated. Explore the possibility of abstracting it later.
 // This has to be a regular class to be extended by the FileReader.
 //   Later on, untangle to allow case class here
+
+/**
+ * UntypedReader implementation
+ * @param fromSource the DataSource that specifies where to read the Data from.
+ * @param sparkSession just like the name says...
+ */
 class UntypedReader(
   val fromSource: DataSource
 )(
@@ -16,6 +21,11 @@ class UntypedReader(
   override def fileReader(file: FILE): GenericFileReader[DataFrame] = UntypedFileReader(file)
 }
 
+/**
+ * UntypedFileReader implementation
+ * @param file the File Metadata necessary to create a Reader
+ * @param sparkSession just like the name says...
+ */
 private case class UntypedFileReader(
   file: FILE
 )(

@@ -6,32 +6,25 @@ import pfvalter.sparkles.core.io.source.{DataSource, FILE}
 
 import scala.reflect.runtime.universe.TypeTag
 
+/**
+ * TypedWriter implementation
+ * @param toSource the DataSource that specifies where to write the Data to.
+ * @param sparkSession it's in the name...
+ * @param writeTypeTag needed for Encoders
+ * @tparam T the case class of the type of the Data to be written.
+ */
 class TypedWriter[T <: Product](
   val toSource: DataSource,
   //Implement this later to allow different SaveMode's
   saveMode: SaveMode = SaveMode.Overwrite
 )(
-  implicit val spark: SparkSession,
+  implicit val sparkSession: SparkSession,
   implicit val writeTypeTag: TypeTag[T]
 ) extends Writer[Dataset[T]] {
 
   implicit val writeEncoder: Encoder[T] = Encoders.product[T]
 
-  override def fileWriter(file: FILE, saveMode: SaveMode): GenericFileWriter[Dataset[T]] = ???
-}
-
-class TypedReader[T <: Product](
-  val toSource: DataSource,
-  //Implement this later to allow different SaveMode's
-  saveMode: SaveMode = SaveMode.Overwrite
-)(
-  implicit val sparkSession: SparkSession,
-  implicit val readTypeTag: TypeTag[T]
-) extends Writer[Dataset[T]] {
-
-  implicit val readEncoder: Encoder[T] = Encoders.product[T]
-
-  override def fileWriter(file: FILE, saveMode: SaveMode): GenericFileWriter[Dataset[T]] = {
+  override def fileWriter(file: FILE, saveMode: SaveMode = saveMode): GenericFileWriter[Dataset[T]] = {
     TypedFileWriter[T](file, saveMode)
   }
 }

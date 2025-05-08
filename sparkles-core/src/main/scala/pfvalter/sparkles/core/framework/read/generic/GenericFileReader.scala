@@ -17,6 +17,10 @@ abstract class GenericFileReader[R](
 )(
   implicit val sparkSession: SparkSession
 ) extends ReaderBlueprint[R] {
+  /*
+   * This val allows passing a schema to the reader. It should be implemented in the TypedReader and set to none
+   *   on the Untyped one.
+   */
   val schema: Option[StructType]
 
   /**

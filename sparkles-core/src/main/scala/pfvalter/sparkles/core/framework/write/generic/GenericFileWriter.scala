@@ -20,6 +20,10 @@ abstract class GenericFileWriter[R](
   implicit val sparkSession: SparkSession
 ) extends WriterBlueprint[R] {
 
+  /**
+   * Main method for the File writer implementation. Writes a Dataset (or a DataFrame).
+   * @param output the output to be written
+   */
   private def writeDS(output: R): Unit = output match {
     case ds: Dataset[_] => file.fileFormat match {
       case JSON => ds.write.mode(saveMode).format("json").save(file.filePath)

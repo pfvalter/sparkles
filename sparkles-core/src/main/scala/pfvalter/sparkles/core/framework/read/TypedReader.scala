@@ -9,6 +9,14 @@ import scala.reflect.runtime.universe.TypeTag
 
 // This has to be a regular class to be extended by the TypedFileReader.
 //   Later on, untangle to allow case class here
+
+/**
+ * TypedReader implementation
+ * @param fromSource the DataSource that specifies where to read the Data from.
+ * @param sparkSession it's in the name...
+ * @param readTypeTag needed for Encoders
+ * @tparam T the case class of the type of the Data to be read.
+ */
 class TypedReader[T <: Product](
   val fromSource: DataSource
 )(
