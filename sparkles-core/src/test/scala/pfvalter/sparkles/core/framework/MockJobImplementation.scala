@@ -1,19 +1,17 @@
 package pfvalter.sparkles.core.framework
 
 import org.apache.spark.sql.Dataset
-import pfvalter.sparkles.core.framework.read.Reader
+import pfvalter.sparkles.core.framework.read.TypedReader
 import pfvalter.sparkles.core.framework.schemas.{MockInput, MockOutput}
-import pfvalter.sparkles.core.framework.write.Writer
+import pfvalter.sparkles.core.framework.write.TypedWriter
 import shapeless._
 
 case class MockJobImplementation(
-  readers: Reader[MockInput] :: HNil,
-  writers: Writer[MockOutput] :: HNil
+  readers: TypedReader[MockInput] :: HNil,
+  writers: TypedWriter[MockOutput] :: HNil
 ) extends Job[
   Dataset[MockInput] :: HNil,
-  Dataset[MockOutput] :: HNil,
-  Reader[MockInput] :: HNil,
-  Writer[MockOutput] :: HNil
+  Dataset[MockOutput] :: HNil
 ] {
 
   override def run(
