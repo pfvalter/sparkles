@@ -28,6 +28,14 @@ class TypedWriter[T <: Product](
   }
 }
 
+/**
+ * TypedFileWriter implementation
+ * @param file the File Metadata necessary to create a Reader
+ * @param saveMode the spark instruction Save Mode.
+ * @param sparkSession just like the name says...
+ * @param writeTypeTag needed for Encoders
+ * @tparam T the case class of the type of the Data to be written.
+ */
 case class TypedFileWriter[T <: Product](
   file: FILE,
   saveMode: SaveMode

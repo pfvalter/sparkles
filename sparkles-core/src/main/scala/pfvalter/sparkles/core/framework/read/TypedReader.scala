@@ -28,6 +28,14 @@ class TypedReader[T <: Product](
   override def fileReader(file: FILE): GenericFileReader[Dataset[T]] = TypedFileReader[T](file)
 }
 
+/**
+ * TypedFileReader implementation
+ * @param file the File Metadata necessary to create a Reader
+ * @param sparkSession just like the name says...
+ * @param readTypeTag needed for Encoders
+ * @param readEncoder the Encoder needed to read
+ * @tparam T the case class of the type of the Data to be read.
+ */
 private case class TypedFileReader[T <: Product](
   file: FILE
 )(
