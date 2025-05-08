@@ -9,7 +9,6 @@ import scala.reflect.runtime.universe.TypeTag
 
 // This has to be a regular class to be extended by the TypedFileReader.
 //   Later on, untangle to allow case class here
-
 /**
  * TypedReader implementation
  * @param fromSource the DataSource that specifies where to read the Data from.

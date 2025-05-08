@@ -15,8 +15,7 @@ import scala.reflect.runtime.universe.TypeTag
  */
 class TypedWriter[T <: Product](
   val toSource: DataSource,
-  //Implement this later to allow different SaveMode's
-  saveMode: SaveMode = SaveMode.Overwrite
+  val saveMode: SaveMode = SaveMode.Overwrite
 )(
   implicit val sparkSession: SparkSession,
   implicit val writeTypeTag: TypeTag[T]

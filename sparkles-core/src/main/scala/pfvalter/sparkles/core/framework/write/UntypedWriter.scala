@@ -12,12 +12,11 @@ import org.apache.spark.sql._
  */
 class UntypedWriter(
   val toSource: DataSource,
-  //Implement this later to allow different SaveMode's
   val saveMode: SaveMode = SaveMode.Overwrite
 )(
   implicit val sparkSession: SparkSession
 ) extends Writer[DataFrame] {
-  override def fileWriter(file: FILE, saveMode: SaveMode): GenericFileWriter[DataFrame] = {
+  override def fileWriter(file: FILE, saveMode: SaveMode = saveMode): GenericFileWriter[DataFrame] = {
     UntypedFileWriter(file, saveMode)
   }
 }

@@ -7,7 +7,6 @@ import pfvalter.sparkles.core.io.source.{DataSource, FILE}
 
 // This has to be a regular class to be extended by the FileReader.
 //   Later on, untangle to allow case class here
-
 /**
  * UntypedReader implementation
  * @param fromSource the DataSource that specifies where to read the Data from.
